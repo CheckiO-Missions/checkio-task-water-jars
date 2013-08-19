@@ -1,7 +1,14 @@
 <p>
-    Task description. For Example.
+    You have two empty jars and a lake. The jars have some volume.
+    You can fill each of jars from the lake, pour from one jar to other or pour out to lake.
+    You should measure some volume of water in any jar.
 
-    Find a sum of two elements.
+    Each action is describe as string of two symbols: From and where.
+    The jars are marked as <strong>1</strong> and <strong>2</strong>, the lake -- <strong>0</strong>.
+    So if you want to fill first jar, then it's "01". Pour water from second to first -- "21".
+    Pour out water from first jar -- "10".
+    When you fill or pour out a jar, it can be done only with whole water in the jar.
+    If you pour water from one jar to another, you pour only sufficient volume to fill a full jar.
 </p>
 
 <p style="text-align: center;">
@@ -10,15 +17,20 @@
 </p>
 
 <p>
-    Additional info
+    The function got three arguments: The volume of first jar, the volume of second jar and the goal.
+    All arguments are positive integer (number > 0).
+
+    You should return a list with action's sequence.
+    <strong>It must contain minimal possible quantity of steps</strong>
 </p>
 
 <p>
-    <strong>Input: </strong> Type of data.
+    <strong>Input: </strong> The volume of first jar, the volume of second jar and the goal.
+    Positive integers.
 </p>
 
 <p>
-    <strong>Output: </strong> Type of data.
+    <strong>Output: </strong> A sequence of steps. A list with strings.
 </p>
 
 
@@ -27,5 +39,6 @@
     <p>
         <strong>Example:</strong>
     </p>
-    <pre class="brush: python">checkio(2, 2) == 4</pre>
+    <pre class="brush: python">checkio(5, 7, 6) == ["01", "12", "01", "12", "20", "12", "20", "12", "01", "12"]
+checkio(3, 4, 1) == ["02", "21"]</pre>
 </div>
