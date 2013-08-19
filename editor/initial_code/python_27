@@ -1,8 +1,9 @@
-def checkio(data):
+def checkio(first, second, goal):
 
     #replace this for solution
-    return 111
+    return []
 
 #These "asserts" using only for self-checking and not necessary for auto-testing
 if __name__ == '__main__':
-    pass
+    print(checkio(5, 7, 6))  # ["01", "12", "01", "12", "20", "12", "20", "12", "01", "12"]
+    print(checkio(3, 4, 1))  # ["02", "21"]
