@@ -63,26 +63,29 @@ requirejs(['ext_editor_1', 'jquery_190', 'raphael_210'],
             $content.find('.output').html('&nbsp;Your result:&nbsp;' + ext.JSON.encode(userResult));
 
             if (!result) {
-                $content.find('.call').html('Fail: checkio(' + ext.JSON.encode(checkioInput) + ')');
+                $content.find('.call').html('Fail: checkio(' + String(checkioInput) + ')');
                 $content.find('.answer').html(result_addon);
                 $content.find('.answer').addClass('error');
                 $content.find('.output').addClass('error');
                 $content.find('.call').addClass('error');
             }
             else {
-                $content.find('.call').html('Pass: checkio(' + ext.JSON.encode(checkioInput) + ')');
+                $content.find('.call').html('Pass: checkio(' + String(checkioInput) + ')');
                 $content.find('.answer').remove();
             }
             //Dont change the code before it
 
-            //Your code here about test explanation animation
-            //$content.find(".explanation").html("Something text for example");
-            //
-            //
-            //
-            //
-            //
+            var canvas = new WaterJarsCanvas();
+            var dom = $content.find(".explanation")[0];
 
+            if (!result) {
+                canvas.createCanvas(dom, checkioInput, "Example of solution")
+                canvas.animateCanvas(explanation);
+            }
+            else {
+                canvas.createCanvas(dom, checkioInput, "Your solution")
+                canvas.animateCanvas(userResult);
+            }
 
             this_e.setAnimationHeight($content.height() + 60);
 
@@ -142,10 +145,130 @@ requirejs(['ext_editor_1', 'jquery_190', 'raphael_210'],
         var colorGrey1 = "#EBEDED";
 
         var colorWhite = "#FFFFFF";
-        //Your Additional functions or objects inside scope
-        //
-        //
-        //
+
+        function WaterJarsCanvas() {
+            var sizeX = 300;
+            var sizeY;
+            var fontSize = 20;
+            var delay = 800;
+            var stepDelay = delay * 1.3;
+
+            var jarUnit = 30;
+            var jarWidth = jarUnit * 2.5;
+
+            var x0 = (sizeX - jarWidth * 2.5) / 2;
+            var y0 = fontSize * 2;
+
+
+            var attrJar = {"stroke": colorBlue4, "stroke-width": 4};
+            var attrText = {"stroke": colorBlue4, "font-size": fontSize, "font-family": "Verdana"};
+            var attrSteps = {"stroke": colorBlue4, "font-size": fontSize * 0.8, "font-family": "Verdana"};
+            var attrWater = {"stroke-width": 0, "fill": colorBlue1};
+
+            var paper;
+            var waterSet;
+            var valueSet;
+            var firstMax;
+            var secondMax;
+            var goal;
+
+            this.createCanvas = function(dom, inData, message) {
+                firstMax = inData[0];
+                secondMax = inData[1];
+                goal = inData[2];
+
+                sizeY = y0 * 3 + Math.max(firstMax, secondMax) * jarUnit;
+
+                paper = Raphael(dom, sizeX, sizeY, 0, 0);
+                paper.path(Raphael.format(
+                    "M{0},{1}V{2}H{3}V{1}",
+                    x0,
+                    sizeY - y0 - firstMax * jarUnit,
+                    sizeY - y0,
+                    x0 + jarWidth
+                )).attr(attrJar);
+                paper.path(Raphael.format(
+                    "M{0},{1}V{2}H{3}V{1}",
+                    x0 + jarWidth * 1.5,
+                    sizeY - y0 - secondMax * jarUnit,
+                    sizeY - y0,
+                    x0 + jarWidth * 2.5
+                )).attr(attrJar);
+
+                paper.text(sizeX / 2, fontSize / 2, message).attr(attrText);
+
+                paper.text(x0 + jarWidth / 2, sizeY - y0 * 1.5 - firstMax * jarUnit, firstMax).attr(attrText);
+                paper.text(x0 + jarWidth * 2, sizeY - y0 * 1.5 - secondMax * jarUnit, secondMax).attr(attrText);
+                valueSet = paper.set();
+                valueSet.push(paper.text(x0 + jarWidth / 2, sizeY - y0 / 2, "0").attr(attrText));
+                valueSet.push(paper.text(x0 + jarWidth * 2, sizeY - y0 / 2, "0").attr(attrText));
+
+            };
+
+            this.animateCanvas = function(steps) {
+                var stepsText = paper.text(sizeX / 2, fontSize * 1.5, "").attr(attrSteps);
+                var firstWater = paper.rect(x0, sizeY - y0, jarWidth, 0).attr(attrWater);
+                var secondWater = paper.rect(x0 + jarWidth * 1.5, sizeY - y0, jarWidth, 0).attr(attrWater);
+                firstWater.toBack();
+                secondWater.toBack();
+                var res = [0, 0];
+                for (var i = 0; i < steps.length; i++){
+                    res = applyAction(res[0], res[1], steps[i]);
+
+                    setTimeout(
+                        function(){
+                            var action = steps[i];
+                            var j = i;
+                            var first = res[0];
+                            var second = res[1];
+                            return function(){
+                                firstWater.animate({
+                                    "y": sizeY - y0 - first * jarUnit,
+                                    "height": jarUnit * first
+                                }, delay);
+                                secondWater.animate({
+                                    "y": sizeY - y0 - second * jarUnit,
+                                    "height": jarUnit * second
+                                }, delay);
+                                valueSet[0].attr("text", first);
+                                valueSet[1].attr("text", second);
+                                stepsText.attr({"text": steps.slice(0, j + 1).join(",")});
+                            }
+                        }(),
+                        stepDelay * i
+                    );
+                }
+                setTimeout(function(){
+                    if (res[0] === goal) {
+                        valueSet[0].attr({"stroke": colorOrange4, "fill": colorOrange4});
+                    }
+                    else {
+                        valueSet[1].attr({"stroke": colorOrange4, "fill": colorOrange4});
+                    }
+                }, stepDelay * i)
+            };
+
+            function applyAction(first, second, step) {
+                switch (step){
+                    case "10":
+                        return [0, second];
+                    case "20":
+                        return [first, 0];
+                    case "01":
+                        return [firstMax, second];
+                    case "02":
+                        return [first, secondMax];
+                    case "12":
+                        var vol = first > (secondMax - second) ? secondMax - second: first;
+                        return [first - vol, second + vol];
+                    case "21":
+                        vol = second > (firstMax - first) ? firstMax - first: second;
+                        return [first + vol, second - vol];
+                }
+                return [first, second];
+            };
+
+        }
 
 
     }
