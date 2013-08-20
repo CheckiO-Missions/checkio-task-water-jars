@@ -30,7 +30,8 @@ from checkio.signals import ON_CONNECT
 from checkio import api
 from checkio.referees.io import CheckiOReferee
 from checkio.referees import cover_codes
-from checkio.referees import checkers
+#from checkio.referees import checkers
+import jars_checker
 
 from tests import TESTS
 
@@ -42,7 +43,7 @@ api.add_listener(
             'python-27': cover_codes.unwrap_args,  # or None
             'python-3': cover_codes.unwrap_args
         },
-        checker=None,  # checkers.float.comparison(2)
+        checker=jars_checker.checker,  # checkers.float.comparison(2)
         add_allowed_modules=[],
         add_close_buildins=[],
         remove_allowed_modules=[]
