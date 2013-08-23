@@ -79,11 +79,11 @@ requirejs(['ext_editor_1', 'jquery_190', 'raphael_210'],
             var dom = $content.find(".explanation")[0];
 
             if (!result) {
-                canvas.createCanvas(dom, checkioInput, "Example of solution")
+                canvas.createCanvas(dom, checkioInput, "Example of solution");
                 canvas.animateCanvas(explanation);
             }
             else {
-                canvas.createCanvas(dom, checkioInput, "Your solution")
+                canvas.createCanvas(dom, checkioInput, "Your solution");
                 canvas.animateCanvas(userResult);
             }
 
@@ -94,6 +94,7 @@ requirejs(['ext_editor_1', 'jquery_190', 'raphael_210'],
         //TRYIT code
         var $tryit;
 
+        var tCanvas;
 
         //this function process returned data and show it
         ext.set_console_process_ret(function (this_e, ret) {
@@ -102,27 +103,35 @@ requirejs(['ext_editor_1', 'jquery_190', 'raphael_210'],
             }
             catch(err){}
 
-            $tryit.find(".checkio-result-in").html(ext.JSON.encode(ret));
+            $tryit.find(".checkio-result-in").html(ret);
         });
 
         ext.set_generate_animation_panel(function (this_e) {
             $tryit = $(this_e.setHtmlTryIt(ext.get_template('tryit'))).find(".tryit-content");
-            //Your code here about tryit animation
-            //
-            //
-            //
-            //
-            //
-            //
+            //tCanvas = new WaterJarsCanvas();
+            var defaultValues = [3, 4, 2];
+
 
             //run checking
             $tryit.find('.bn-check').click(function (e) {
                 //collect data from your tryit panel
-                var data = 0;
-
-                //send it for check
-                this_e.sendToConsoleCheckiO(data);
-                //After it will be called set_console_process_ret
+                var $first = $tryit.find(".input-first");
+                var $second = $tryit.find(".input-second");
+                var $goal = $tryit.find(".input-goal");
+                var inputs = [$first, $second, $goal];
+                var args = [];
+                for (var i = 0; i < 3; i ++) {
+                    var t = parseInt(inputs[i]);
+                    if (isNaN(t) || t < 1 || t > 10){
+                        inputs[i].val(defaultValues[i]);
+                        args.push(defaultValues[i]);
+                    }
+                    else {
+                        args.push(t);
+                    }
+                }
+                //tCanvas.createCanvas($tryit.find(".tryit-canvas")[0], args, "");
+                this_e.sendToConsoleCheckiO(args[0], args[1], args[2]);
                 e.stopPropagation();
                 return false;
             });
@@ -205,6 +214,12 @@ requirejs(['ext_editor_1', 'jquery_190', 'raphael_210'],
 
             };
 
+            this.removeCanvas = function() {
+                if (paper){
+                    paper.remove();
+                }
+            };
+
             this.animateCanvas = function(steps) {
                 var stepsText = paper.text(sizeX / 2, fontSize * 1.5, "").attr(attrSteps);
                 var firstWater = paper.rect(x0, sizeY - y0, jarWidth, 0).attr(attrWater);
@@ -266,7 +281,7 @@ requirejs(['ext_editor_1', 'jquery_190', 'raphael_210'],
                         return [first + vol, second - vol];
                 }
                 return [first, second];
-            };
+            }
 
         }
 
