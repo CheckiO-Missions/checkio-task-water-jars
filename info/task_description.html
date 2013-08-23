@@ -1,14 +1,14 @@
 <p>
-    You have two empty jars and a lake. The jars have some volume.
-    You can fill each of jars from the lake, pour from one jar to other or pour out to lake.
-    You should measure some volume of water in any jar.
+    You have two empty jars and a lake. Each of the jars have a volume.
+    You can fill each jar with water from the lake, pour water from one jar to other or pour water back into lake.
+    You should measure the volume of water in any jar.
 
     Each action is describe as string of two symbols: From and where.
     The jars are marked as <strong>1</strong> and <strong>2</strong>, the lake -- <strong>0</strong>.
-    So if you want to fill first jar, then it's "01". Pour water from second to first -- "21".
-    Pour out water from first jar -- "10".
-    When you fill or pour out a jar, it can be done only with whole water in the jar.
-    If you pour water from one jar to another, you pour only sufficient volume to fill a full jar.
+    If you want to fill first jar, then it's "01". Pour water from second to first -- "21".
+    Dump water from first jar back into the lake -- "10".
+    When you fill or pour water out of a jar, that jars volume must be full.
+    If you pour water from one jar to another, you can pour only an amount sufficient to fill the full volume of a jar.
 </p>
 
 <p style="text-align: center;">
@@ -17,11 +17,11 @@
 </p>
 
 <p>
-    The function got three arguments: The volume of first jar, the volume of second jar and the goal.
-    All arguments are positive integer (number > 0).
+    The function has three arguments: The volume of first jar, the volume of second jar and the goal.
+    All arguments are positive integers (number > 0).
 
     You should return a list with action's sequence.
-    <strong>It must contain minimal possible quantity of steps</strong>
+    <strong>The solution must contain the minimum number of possible steps</strong>
 </p>
 
 <p>
