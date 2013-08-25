@@ -1,7 +1,8 @@
 <p>
     You have two empty jars and a lake. Each of the jars have a volume.
     You can fill each jar with water from the lake, pour water from one jar to other or pour water back into lake.
-    You should measure the volume of water in any jar.
+    You should measure the volume of water in <strong>any</strong> jar.
+    The required volume of water may be in any of jars and is not matter that in the other.
 
     Each action is describe as string of two symbols: From and where.
     The jars are marked as <strong>1</strong> and <strong>2</strong>, the lake -- <strong>0</strong>.
@@ -21,7 +22,7 @@
     The function has three arguments: The volume of first jar, the volume of second jar and the goal.
     All arguments are positive integers (number > 0).
 
-    You should return a list with action's sequence.
+    You should return a list with action's sequence. If solution does not exist, then return empty list.
     <strong>The solution must contain the minimum number of possible steps</strong>
 </p>
 
