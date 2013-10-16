@@ -1,17 +1,18 @@
 <p>
-    You have two empty jars and a lake. Each of the jars have a volume.
+    You stand by the edge of a lake with two empty jars. You notice that both of the jars have a volume.
     You can fill each jar with water from the lake, pour water from one jar to other or pour water back into lake.
-    You should measure the volume of water in <strong>any</strong> jar.
-    The required volume of water may be in any of the jars and it does not matter which.
+    You should measure the volume of water in <strong>either</strong> jar.
+    The required volume of water may be in either of the jars and it does not matter which.
 </p>
 <p>
-    Each action is describe as string of two symbols: From and where.
-    The jars are marked as <strong>1</strong> and <strong>2</strong>, the lake -- <strong>0</strong>.
-    If you want to fill first jar, then it's "01". Pour water from second to first -- "21".
-    Dump water from first jar back into the lake -- "10".
-    When you fill a jar, that jar volume will be full.
-    When you pour water out a jar, that jar volume will be empty.
-    If you pour water from one jar to another, you can pour only an amount sufficient to fill the full volume of a jar.
+    Each action is described as a string of two symbols: from and to.
+    The jars are marked as <strong>1</strong> and <strong>2</strong>, the lake is marked <strong>0</strong>.
+    If you want to take water from the lake and fill first jar, then it's "01". 
+    To pour water from second jar into the first would be "21".
+    Dump water out of the first jar and back into the lake would be "10".
+    When you fill a jar from the lake, that jars volume will be full.
+    When you pour water out a jar and into the lake, that jars volume will be empty.
+    If you pour water from one jar to another, you can only pour as much as will fill the full volume of the receiving jar.
 </p>
 
 <p style="text-align: center;">
@@ -22,9 +23,8 @@
 <p>
     The function has three arguments: The volume of first jar, the volume of second jar and the goal.
     All arguments are positive integers (number > 0).
-
-    You should return a list with action's sequence. If solution does not exist, then return empty list.<br>
-    <strong>The solution must contain the minimum number of possible steps</strong>
+    You should return a list with action's sequence. If a solution does not exist, then return an empty list.<br>
+    <strong>The solution must contain the minimum possible number of steps</strong>
 </p>
 
 <p>
