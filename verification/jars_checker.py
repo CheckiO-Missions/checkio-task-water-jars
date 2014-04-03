@@ -22,8 +22,8 @@ ACTIONS = {
 def checker(answer, result):
     global MAX_STEPS, FIRST_MAX, SECOND_MAX, GOAL
     MAX_STEPS, FIRST_MAX, SECOND_MAX, GOAL = answer
-    if not MAX_STEPS and result == []:
-        return True, ""
+    # if not MAX_STEPS and result == []:
+    #     return True, ""
 
     if not isinstance(result, (tuple, list)):
         return False, "Result must be a list."

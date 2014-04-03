@@ -23,7 +23,7 @@
 <p>
     The function has three arguments: The volume of first jar, the volume of second jar and the goal.
     All arguments are positive integers (number > 0).
-    You should return a list with action's sequence. If a solution does not exist, then return an empty list.<br>
+    You should return a list with action's sequence.<br>
     <strong>The solution must contain the minimum possible number of steps</strong>
 </p>
 
@@ -54,5 +54,7 @@ checkio(3, 4, 1) == ["02", "21"]</pre>
 
 
 <p><strong>Precondition: </strong><br>
-    0 < first, second, goal < 10
+    0 < first, second, goal < 10<br>
+    goal &le; first or goal &le; first<br>
+    All test cases have solution.
 </p>

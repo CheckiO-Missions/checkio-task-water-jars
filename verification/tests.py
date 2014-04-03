@@ -41,10 +41,10 @@ TESTS = {
             "input": [5, 8, 7],
             "answer": [8, 5, 8, 7],
             "explanation": ['01', '12', '01', '12', '20', '12', '01', '12']},
-        {
-            "input": [4, 4, 8],
-            "answer": [0, 4, 4, 8],
-            "explanation": []},
+        # {
+        #     "input": [4, 4, 8],
+        #     "answer": [0, 4, 4, 8],
+        #     "explanation": []},
 
     ],
     "Extra": [
